@@ -2,14 +2,12 @@
 <html>
 <head>
 	 <script type="text/javascript" src="date_heure.js"></script>
+   <script type="text/javascript" src="twitter.js"></script>
 	<title>iGoogle</title>
 	<script type="text/javascript"> 
 		window.onload = date_heure('date_heure');
 	</script>
 </head>
-<a class="twitter-timeline"  href="https://twitter.com/MichelBillaud/favorites" data-widget-id="580398028357541888">Tweets favoris de @MichelBillaud</a>
-
-
 <body>
 	  <!-- Static navbar -->
       <nav class="navbar navbar-default">
@@ -25,13 +23,31 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#"></a></li>
+              <li class="active"><a href="#"></a>Date Widget</li>
+            </ul>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#"></a>Weather Widget</li>
+            </ul>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#"></a>Photos Widget</li>
+            </ul>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#"></a>Google maps</li>
+            </ul>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#"></a>Sports</li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
-  		 <span id="date_heure"></span>
-         
-</body>
 
+  		 <span id="date_heure"></span>
+
+        <a class="twitter-timeline"  witdh ="400" height="400" href="https://twitter.com/MichelBillaud/favorites" data-widget-id="580398028357541888">Tweets favoris de @MichelBillaud</a>
+
+
+        <iframe id="ytplayer" type="text/html" width="600" height="400"
+       src="http://www.youtube.com/embed?listType=search&list=lol"
+       frameborder="0" />
+</body>
 </html>
