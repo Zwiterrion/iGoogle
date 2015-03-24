@@ -2,14 +2,14 @@
 <html>
 <head>
 
-	 <script type="text/javascript" src="date_heure.js"></script>
-     <script type="text/javascript" src="twitter.js"></script>
+	<script type="text/javascript" src="date_heure.js"></script>
+	<script type="text/javascript" src="twitter.js"></script>
 
 	<title>iGoogle</title>
 
-	 <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-	 <title>iGoogle</title>
+	<title>iGoogle</title>
 
 	<script type="text/javascript">
 
@@ -46,7 +46,16 @@
 		
 		refresh();
 	}
+	function addTwitter()
+	{
+		var content = '<a class="twitter-timeline" href="https://twitter.com/MichelBillaud" data-widget-id="579937972377796608" style="display:block">Tweets de @MichelBillaud</a>';
+                   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+        var newContainer = '';
+        newContainer +='<div class="panel-body text-center">' + content + '</div>';
+		document.getElementById('tableBody').innerHTML += newContainer;
+	}
 
+	
 	function addTwitterWidget() {
 
 		var div = document.createElement('div');
@@ -54,9 +63,10 @@
 		a.setAttribute('class', "twitter-timeline");
 		a.setAttribute('width', "400");
 		a.setAttribute('height', "400");
-		a.setAttribute('href', "https://twitter.com/MichelBillaud/favorites");
-		a.setAttribute('data-widget-id', "580398028357541888");
+		a.setAttribute('href', "https://twitter.com/MichelBillaud/");
+		a.setAttribute('data-widget-id', "579937972377796608");
 		a.innerHTML = "Tweets favoris de @MichelBillaud";
+
 
 		var buttonDelete = document.createElement('input');
 		buttonDelete.setAttribute("class", "btn-danger");
@@ -74,7 +84,7 @@
 		tr.appendChild(td);
 		tbody.appendChild(tr);
 	}
-
+	
 	function refresh() {
 		for(var i=0; i < listDateWidget.length; i++)  {
 			document.getElementById("widget-" + i).innerHTML = date_heure();
@@ -109,66 +119,64 @@
 		td.appendChild(div);
 		tr.appendChild(td);
 		tbody.appendChild(tr);
+
 	}
 
-   // <iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
-	</script>
+
+
+   /* <iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
+   */
+   </script>
 </head>
 
 <body>
 
-    <div class="container">
+	<div class="container">
 
-      <!-- Static navbar -->
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Project name</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li><a href="#" onclick="addDateWidget()">DateWidget</a></li>
-              <li><a href="#" onclick="addTwitterWidget()">TwitterWidget</a></li>
-              <li><a href="#" onclick="addYoutubeWidget()">YoutubeWidget</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-
-       <table id="tableWidget" width="100%" cellspacing="0" cellpadding="0" border="0">
-        	<tbody id="tableBody">
-       
-        	</tbody>
-        </table> 
-        <a class="twitter-timeline"  href="https://twitter.com/MichelBillaud" data-widget-id="580420057664266244">Tweets de @MichelBillaud</a>
-
-	
-
-  		 <span id="date_heure"></span>
+		<!-- Static navbar -->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Project name</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#" onclick="addDateWidget()">DateWidget</a></li>
+						<li><a href="#" onclick="addTwitter()">TwitterWidget</a></li>
+						<li><a href="#" onclick="addYoutubeWidget()">YoutubeWidget</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
 
 
-        <a class="twitter-timeline"  witdh ="400" height="400" href="https://twitter.com/MichelBillaud/favorites" data-widget-id="580398028357541888">Tweets favoris de @MichelBillaud</a>
-    </div>
+		<table id="tableWidget" width="100%" cellspacing="0" cellpadding="0" border="0">
+			<tbody id="tableBody">
 
-        <iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
+			</tbody>
+		</table> 
 
-    </div> <!-- /container --> 
+		<span id="date_heure"></span>
+	</div>
+
+	<iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
+
+</div> <!-- /container --> 
 
 
-   </div> <!-- /container --> 
+</div> <!-- /container --> 
 
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
 <script src="../bootstrap/js/dropdown.js"></script>
-  </body>
+</body>
 
 </html>
 
