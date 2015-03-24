@@ -26,7 +26,7 @@
 		var buttonDelete = document.createElement('input');
 		buttonDelete.setAttribute("class", "btn-danger");
 		buttonDelete.setAttribute("type", "button");
-		buttonDelete.setAttribute("onclick", "deleteDateWidget("+ span.id + ")");
+		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
 		buttonDelete.setAttribute("value", "Supprimer le widget");
 
 		div.appendChild(span);
@@ -40,12 +40,6 @@
 		tbody.appendChild(tr);
 		
 		refresh();
-	}
-
-	function deleteDateWidget(id) {
-
-		console.log("" + id);
-		//listDateWidget.splice(id, 1);
 	}
 
 	function refresh() {
