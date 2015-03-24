@@ -3,7 +3,8 @@
 <head>
 
 	 <script type="text/javascript" src="date_heure.js"></script>
-   <script type="text/javascript" src="twitter.js"></script>
+     <script type="text/javascript" src="twitter.js"></script>
+
 	<title>iGoogle</title>
 
 	 <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -46,6 +47,34 @@
 		refresh();
 	}
 
+	function addTwitterWidget() {
+
+		var div = document.createElement('div');
+		var a = document.createElement('a');
+		a.setAttribute('class', "twitter-timeline");
+		a.setAttribute('width', "400");
+		a.setAttribute('height', "400");
+		a.setAttribute('href', "https://twitter.com/MichelBillaud/favorites");
+		a.setAttribute('data-widget-id', "580398028357541888");
+		a.innerHTML = "Tweets favoris de @MichelBillaud";
+
+		var buttonDelete = document.createElement('input');
+		buttonDelete.setAttribute("class", "btn-danger");
+		buttonDelete.setAttribute("type", "button");
+		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
+		buttonDelete.setAttribute("value", "Supprimer le widget");
+
+		div.appendChild(a);
+		div.appendChild(buttonDelete);
+
+		var tbody = document.getElementById("tableBody");
+		var tr = document.createElement('tr');
+		var td = document.createElement('td');
+		td.appendChild(div);
+		tr.appendChild(td);
+		tbody.appendChild(tr);
+	}
+
 	function refresh() {
 		for(var i=0; i < listDateWidget.length; i++)  {
 			document.getElementById("widget-" + i).innerHTML = date_heure();
@@ -53,6 +82,36 @@
 		setTimeout(refresh, 1000);
 	}
 
+
+	function addYoutubeWidget() {
+
+		var div = document.createElement('div');
+		var iframe = document.createElement('iframe');
+		iframe.setAttribute('id', "ytplayer");
+		iframe.setAttribute('type', "text/html");
+		iframe.setAttribute('width', "600");
+		iframe.setAttribute('height', "400");
+		iframe.setAttribute('src', "http://www.youtube.com/embed?listType=search&list=lol");
+		iframe.setAttribute('frameborder', "O");
+
+		var buttonDelete = document.createElement('input');
+		buttonDelete.setAttribute("class", "btn-danger");
+		buttonDelete.setAttribute("type", "button");
+		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
+		buttonDelete.setAttribute("value", "Supprimer le widget");
+
+		div.appendChild(iframe);
+		div.appendChild(buttonDelete);
+
+		var tbody = document.getElementById("tableBody");
+		var tr = document.createElement('tr');
+		var td = document.createElement('td');
+		td.appendChild(div);
+		tr.appendChild(td);
+		tbody.appendChild(tr);
+	}
+
+   // <iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
 	</script>
 </head>
 
@@ -75,6 +134,8 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><a href="#" onclick="addDateWidget()">DateWidget</a></li>
+              <li><a href="#" onclick="addTwitterWidget()">TwitterWidget</a></li>
+              <li><a href="#" onclick="addYoutubeWidget()">YoutubeWidget</a></li>
             </ul>
           </div>
         </div>
@@ -99,6 +160,10 @@
         <iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
 
     </div> <!-- /container --> 
+
+
+   </div> <!-- /container --> 
+
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
