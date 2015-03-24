@@ -30,7 +30,7 @@
 		var buttonDelete = document.createElement('input');
 		buttonDelete.setAttribute("class", "btn-danger");
 		buttonDelete.setAttribute("type", "button");
-		buttonDelete.setAttribute("onclick", "deleteDateWidget("+ span.id + ")");
+		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
 		buttonDelete.setAttribute("value", "Supprimer le widget");
 
 		div.appendChild(span);
@@ -44,12 +44,6 @@
 		tbody.appendChild(tr);
 		
 		refresh();
-	}
-
-	function deleteDateWidget(id) {
-
-		console.log("" + id);
-		//listDateWidget.splice(id, 1);
 	}
 
 	function refresh() {
@@ -80,42 +74,31 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="dropdown-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
+              <li><a href="#" onclick="addDateWidget()">DateWidget</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-              <li><a href="../navbar-static-top/">Static top</a></li>
-              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
+          </div>
+        </div>
       </nav>
-	<input class="btn-success" type="button" onclick="addDateWidget()" value="Ajouter un DateWidget"/>
+
 
        <table id="tableWidget" width="100%" cellspacing="0" cellpadding="0" border="0">
         	<tbody id="tableBody">
        
         	</tbody>
         </table> 
-		 <span id="date_heure"></span>
+
+
+	
+
+  		 <span id="date_heure"></span>
+
 
         <a class="twitter-timeline"  witdh ="400" height="400" href="https://twitter.com/MichelBillaud/favorites" data-widget-id="580398028357541888">Tweets favoris de @MichelBillaud</a>
     </div>
 
+        <iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
+
+    </div> <!-- /container --> 
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>

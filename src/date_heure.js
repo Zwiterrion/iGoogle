@@ -22,9 +22,5 @@ function date_heure()
         {
                 s = "0"+s;
         }
-        resultat = 'Date : ' + jours[jour]+' '+j+' '+ mois[moi]+' '+annee+' Heure : '+h+':'+m+':'+s;
-
-        //document.getElementById(id).innerHTML = resultat;
-        
-        return resultat;
+        return 'Date : ' + jours[jour]+' '+j+' '+ mois[moi]+' '+annee+' Heure : '+h+':'+m+':'+s;        
 }
