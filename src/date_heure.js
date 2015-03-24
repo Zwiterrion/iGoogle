@@ -1,4 +1,4 @@
-function date_heure(id)
+function date_heure()
 {
         date = new Date;
         annee = date.getFullYear();
@@ -22,8 +22,9 @@ function date_heure(id)
         {
                 s = "0"+s;
         }
-        resultat = 'Nous sommes le '+jours[jour]+' '+j+' '+mois[moi]+' '+annee+' il est '+h+':'+m+':'+s;
-        document.getElementById(id).innerHTML = resultat;
-        setTimeout('date_heure("'+id+'");','1000');
-        return true;
+        resultat = 'Date : ' + jours[jour]+' '+j+' '+ mois[moi]+' '+annee+' Heure : '+h+':'+m+':'+s;
+
+        //document.getElementById(id).innerHTML = resultat;
+        
+        return resultat;
 }

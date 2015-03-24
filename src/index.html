@@ -2,15 +2,75 @@
 <html>
 <head>
 	 <script type="text/javascript" src="date_heure.js"></script>
-	<title>iGoogle</title>
-	<script type="text/javascript"> 
-		window.onload = date_heure('date_heure');
+	 <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	 <title>iGoogle</title>
+
+	<script type="text/javascript">
+
+	function DateWidget() {
+
+		this.date = date_heure();
+	}
+	var listDateWidget = [];
+
+	function addDateWidget() {
+
+		var div = document.createElement('div');
+		var span = document.createElement('span');
+		var date = new DateWidget;
+		span.innerHTML = date.date;
+		span.setAttribute('id', "widget-" + listDateWidget.length);
+		listDateWidget.push(date);
+
+		var buttonDelete = document.createElement('input');
+		buttonDelete.setAttribute("class", "btn-danger");
+		buttonDelete.setAttribute("type", "button");
+		buttonDelete.setAttribute("onclick", "deleteDateWidget("+ span.id + ")");
+		buttonDelete.setAttribute("value", "Supprimer le widget");
+
+		div.appendChild(span);
+		div.appendChild(buttonDelete);
+
+		var tbody = document.getElementById("tableBody");
+		var tr = document.createElement('tr');
+		var td = document.createElement('td');
+		td.appendChild(div);
+		tr.appendChild(td);
+		tbody.appendChild(tr);
+		
+		refresh();
+	}
+
+	function deleteDateWidget(id) {
+
+		console.log("" + id);
+		//listDateWidget.splice(id, 1);
+	}
+
+	function refresh() {
+		for(var i=0; i < listDateWidget.length; i++)  {
+			document.getElementById("widget-" + i).innerHTML = date_heure();
+		}
+		setTimeout(refresh, 1000);
+	}
+
 	</script>
 </head>
 
 <body>
-  		 <span id="date_heure"></span>
-         
+
+	<input class="btn-success" type="button" onclick="addDateWidget()" value="Ajouter un DateWidget"/>
+
+       <table id="tableWidget" width="100%" cellspacing="0" cellpadding="0" border="0">
+        	<tbody id="tableBody">
+       
+        	</tbody>
+        </table> 
 </body>
+
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
 
 </html>
