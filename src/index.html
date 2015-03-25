@@ -25,12 +25,59 @@
 	</style>
 
 	<script type="text/javascript">
-
+	var twitterAdded = false;
+	var iterator=0;
 	function DateWidget() {
 
 		this.date = date_heure();
 	}
+	function removeWidget(number){
+        document.getElementById("container-"+number).remove();
+    }
 
+	function addWidgets()
+	{
+		iterator++;
+		var number = iterator;
+		var divContainerWidgets = document.getElementById('widgetsContainer');
+
+		var divContainer = document.createElement('div');
+		divContainer.setAttribute('class','col-md-4');
+		divContainer.setAttribute('id','container'+number);
+
+		
+
+		var divPanel = document.createElement('div');
+		divPanel.setAttribute('class','panel panel-default');
+
+		var divInPanel =  document.createElement('div');
+		divInPanel.setAttribute('class','panel-heading text-center');
+
+		var h2  = document.createElement('h2');
+		h2.innerHTML = 'MyWidget';
+		divInPanel.appendChild(h2);
+
+		var deleteButton = document.createElement('span');
+		deleteButton.setAttribute('onclick',"removeWidget("+number+")");
+		deleteButton.setAttribute('class',"pull-right glyphicon glyphicon-remove");
+		
+
+		var divPanelBody = document.createElement('div');
+		divPanelBody.setAttribute('class','panel-body text-center');
+
+		//var content = ;
+		//divPanelBody.appendChild(content);
+
+		divInPanel.appendChild(divPanelBody);
+		divPanel.appendChild(divInPanel);
+		divPanel.appendChild(deleteButton);
+		divContainer.appendChild(divPanel);
+		divContainerWidgets.appendChild(divContainer);
+
+		/*var newContainer = '<div id="container-' + index + '" class="col-md-4"><div class="panel panel-default"><div class="panel-heading text-center"><span onClick="removeWidget(' + index + ')" id="close-' + index + '" style="visibility:hidden;cursor:pointer" class="pull-right glyphicon glyphicon-remove"></span><h2>'+ widgetName +'</h2></div><div class="panel-body text-center">' + content + '</div></div></div>';
+*/
+		
+	}
 	var listDateWidget = [];
 
 	function addDateWidget() {
@@ -51,86 +98,70 @@
 		div.appendChild(span);
 		div.appendChild(buttonDelete);
 
-		var tbody = document.getElementById("tableBody");
-		var tr = document.createElement('tr');
-		var td = document.createElement('td');
-		td.appendChild(div);
-		tr.appendChild(td);
-		tbody.appendChild(tr);
-		
+		var divContainer = document.getElementById("widgetsContainer");
+		divContainer.appendChild(div);
 		refresh();
 	}
+	/****  Twitter ****/
 
-	function addTwitter()
-	{
-		var content = '<a class="twitter-timeline" href="https://twitter.com/MichelBillaud" data-widget-id="579937972377796608" style="display:block">Tweets de @MichelBillaud</a>';
-		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-		var newContainer = '';
-		newContainer +='<div class="panel-body text-center">' + content + '</div>';
-		document.getElementById('tableBody').innerHTML += newContainer;
-	}
-
-	
 	function addTwitterWidget() {
+		if(!twitterAdded)
+		{
+			var div = document.createElement('div');
+			var a = document.createElement('a');
+			div.setAttribute('class','panel-body text-center');
+			a.setAttribute('class', "twitter-timeline");
+			a.setAttribute('width', "400");
+			a.setAttribute('height', "400");
+			a.setAttribute('href', "https://twitter.com/MichelBillaud/");
+			a.setAttribute('data-widget-id', "579937972377796608");
+			a.innerHTML = "Tweets favoris de @MichelBillaud";
 
-		var div = document.createElement('div');
-		var a = document.createElement('a');
-		a.setAttribute('class', "twitter-timeline");
-		a.setAttribute('width', "400");
-		a.setAttribute('height', "400");
-		a.setAttribute('href', "https://twitter.com/MichelBillaud/");
-		a.setAttribute('data-widget-id', "579937972377796608");
-		a.innerHTML = "Tweets favoris de @MichelBillaud";
+
+			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
 
-		var buttonDelete = document.createElement('input');
-		buttonDelete.setAttribute("class", "btn-danger");
-		buttonDelete.setAttribute("type", "button");
+			var buttonDelete = document.createElement('input');
+			buttonDelete.setAttribute("class", "btn-danger");
+			buttonDelete.setAttribute("type", "button");
 		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
 		buttonDelete.setAttribute("value", "Supprimer le widget");
 
 		div.appendChild(a);
 		div.appendChild(buttonDelete);
 
-		var tbody = document.getElementById("tableBody");
-		var tr = document.createElement('tr');
-		var td = document.createElement('td');
-		td.appendChild(div);
-		tr.appendChild(td);
-		tbody.appendChild(tr);
+		var divContainer = document.getElementById("widgetsContainer");
+		divContainer.appendChild(div);
 	}
-	function refresh() {
-		for(var i=0; i < listDateWidget.length; i++)  {
-			document.getElementById("widget-" + i).innerHTML = date_heure();
-		}
-		setTimeout(refresh, 1000);
+}
+function refresh() {
+	for(var i=0; i < listDateWidget.length; i++)  {
+		document.getElementById("widget-" + i).innerHTML = date_heure();
 	}
+	setTimeout(refresh, 1000);
+}
 
 	function addGoogleMaps()
 	{
 		generateMap();
-		/*
-		var content = '<button onClick="generateMap()" class="btn btn-default" type="button">Go!</button>';
-		var newContainer = '<div class="panel panel-default">' + content + '</div>';
-		document.getElementById('tableBody').innerHTML += newContainer;
-		*/
+	
 	}
 	// GOOGLE MAPS //
 	var map;
 	var directionsService = new google.maps.DirectionsService();
 	var directionsDisplay = new google.maps.DirectionsRenderer({ 'map': map }); 
-	function initialize() {
+	function initialize(id) {
 		var myOptions = {
 			zoom: 14,
 			center: new google.maps.LatLng(44.791072,-0.608658),
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
-		map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+		map = new google.maps.Map(document.getElementById('map_canvas'+id), myOptions);
 		directionsDisplay.setMap(map);
 	}
-	function generateMap() {
-		initialize();
-		var start = document.getElementById('maps-input').value;
+	function generateMap(id) {
+		initialize(id);
+		var start = document.getElementById('maps-input'+id).value;
 		var end = '15, rue de Naudet, Gradignan'
 		var request = {
 			origin:start,
@@ -168,15 +199,31 @@
 		div.appendChild(iframe);
 		div.appendChild(buttonDelete);
 
-		var tbody = document.getElementById("tableBody");
-		var tr = document.createElement('tr');
-		var td = document.createElement('td');
-		td.appendChild(div);
-		tr.appendChild(td);
-		tbody.appendChild(tr);
-
+		var divContainer = document.getElementById("divContainer");
+		divContainer.appendChild(div);
 	}
+	function ParseJson(JSONtext)
+	{
+		try{
+			JSONobject = JSON.parse(JSONtext); 
+		}catch(e){
+			ShowAlertMess('Error JSON');
+			return;
+		}
 
+		if(JSONobject.cod != '200') {
+			ShowAlertMess('Error '+ JSONobject.cod + ' ('+ JSONobject.message +')');
+			return;
+		}
+		var mes = JSONobject.cod;
+		if(JSONobject.calctime)
+			mes = mes + ' ' + JSONobject.calctime;
+		if(JSONobject.message)
+			mes = mes + ' ' + JSONobject.message;
+
+		return JSONobject;
+	}
+	// 
 	function load_json(api_url)
 	{ 
 		var xhr;
@@ -193,15 +240,41 @@
 		xhr.send();
 		return xhr.responseText;
 	}
-	function chargeWeather() {
-		var weather = load_json("http://api.openweathermap.org/data/2.5/weather?q=Paris,fr");
-		var json = JSON.parse(weather);
-		console.log(json.name);
-		console.log(json.weather[0].description);
+
+	function loadWeather() {
+
+		var city ='';
+		var temperature ='';
+		var weatherFeel = '';
+
+
+		var param = document.getElementById('weather-input').value;
+
+		//var url = 'http://api.openweathermap.org/data/2.5/weather?q='+param+',fr';
+		var url = 'http://api.openweathermap.org/data/2.5/find?callback=?&q='+param+'&type=like&sort=population&cnt=30';
+
+		var weather = load_json(url);
+
+		var weatherJSON = weather.substring(2,weather.length-3);
+		//console.log(weatherJSON);
+		var JSONobject = JSON.parse(weatherJSON);	
+		
+		for(var i = 0; i <  JSONobject.list.length; i ++){
+			var name = JSONobject.list[i].name +', '+JSONobject.list[i].sys.country;
+
+			var temp = Math.round(10*(JSONobject.list[i].main.temp -273.15))/10 ;
+			var tmin = Math.round(10*(JSONobject.list[i].main.temp_min -273.15)) / 10;
+			var tmax = Math.round(10*(JSONobject.list[i].main.temp_max -273.15)) / 10 ;
+
+			var text = JSONobject.list[i].weather[0].description;
+			var img =  "http://openweathermap.org/img/w/" +JSONobject.list[i].weather[0].icon + ".png";
+			var flag = "http://openweathermap.org/images/flags/" +JSONobject.list[i].sys.country.toLowerCase()  + ".png";
+			var gust = JSONobject.list[i].wind.speed;
+			var pressure = JSONobject.list[i].main.pressure ;
+			var cloud=JSONobject.list[i].clouds.all ; 
+		}
+		console.log(name);
 	}
-
-	chargeWeather();
-
 	</script>
 </head>
 
@@ -218,38 +291,25 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="">Project name</a>
+					<a class="navbar-brand" href="">iGoogle</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="#" onclick="addDateWidget()">DateWidget</a></li>
-						<li><a href="#" onclick="addTwitter()">TwitterWidget</a></li>
+						<li><a href="#" onclick="addTwitterWidget()">TwitterWidget</a></li>
 						<li><a href="#" onclick="addYoutubeWidget()">YoutubeWidget</a></li>
 						<li><a href="#" onclick="addGoogleMaps()">GoogleMaps</a></li>
+						<li><a href="#" onclick="addWidgets(3)">Widget</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 	</div>
 	
-	<div class="container">
-		
-		<table id="tableWidget" width="100%" cellspacing="0" cellpadding="0" border="0">
-			<tbody id="tableBody">
-				
-			</tbody>
-		</table> 
+	<div class="container" style="margin-top:100px">
+		<div id="widgetsContainer" class="row clearfix">
 
-		<span id="date_heure"></span>
-		<div id="cadre2">
-			<div id="requete">
-				<form method="post">
-					<input id="maps-input" type="text"><input name="Aller" type="button" value="Rechercher" onclick="addGoogleMaps()">
-				</form>
-			</div>
-			
 		</div>
-		<div id="map_canvas"> </div>
 	</div> <!-- END CONTAINER -->
 
 	<script src="http://code.jquery.com/jquery.js"></script>
