@@ -4,15 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="http://code.jquery.com/jquery.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="bootstrap/js/dropdown.js"></script>
-	<script src="date_heure.js"></script>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-
-
-	<!-- Bootstrap core CSS -->
-	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 	<title>iGoogle</title>
 	<style>#map_canvas {
@@ -22,19 +14,18 @@
 	</style>
 
 	<script type="text/javascript">
-	var twitterAdded = false;
+
 	var iterator=0;
 	function DateWidget() {
-
 		this.date = date_heure();
 	}
 	function removeWidget(number){
+
 		document.getElementById("container"+number).remove();
 	}
 
 	function addWidgets(widgetNumber)
 	{
-	
 		iterator++;
 		var number = iterator;
 		var divContainerWidgets = document.getElementById('widgetsContainer');
@@ -43,7 +34,7 @@
 		divContainer.setAttribute('class','col-md-4');
 		divContainer.setAttribute('id','container'+number);
 
-		
+
 
 		var divPanel = document.createElement('div');
 		divPanel.setAttribute('class','panel panel-default');
@@ -58,20 +49,17 @@
 		var deleteButton = document.createElement('span');
 		deleteButton.setAttribute('onclick',"removeWidget("+number+")");
 		deleteButton.setAttribute('class',"pull-right glyphicon glyphicon-remove");
-		
+
 
 		var divPanelBody = document.createElement('div');
 		divPanelBody.setAttribute('class','panel-body text-center');
 		divPanelBody.setAttribute('id','panelBody'+number);
 
-		//var content = ;
-		//divPanelBody.appendChild(content);
-		
 
 		divPanelHeading.appendChild(divPanelBody);
 		divPanel.appendChild(divPanelHeading);
 
-		divPanel.appendChild(deleteButton);
+		divContainer.appendChild(deleteButton);
 		divContainer.appendChild(divPanel);
 		divContainerWidgets.appendChild(divContainer);
 
@@ -79,107 +67,70 @@
 
 		/*var newContainer = '<div id="container-' + index + '" class="col-md-4"><div class="panel panel-default"><div class="panel-heading text-center"><span onClick="removeWidget(' + index + ')" id="close-' + index + '" style="visibility:hidden;cursor:pointer" class="pull-right glyphicon glyphicon-remove"></span><h2>'+ widgetName +'</h2></div><div class="panel-body text-center">' + content + '</div></div></div>';
 		*/
-		
 	}
 	function supplyWidget(myWidgetNumber,number)
 	{
+		console.log("test");
 		switch(myWidgetNumber)
 		{
 			case 1:
-			content = TwitterWidget(number);
+			addDateWidget(number);
 			break;
 			case 2:
+			TwitterWidget(number);
+			break;
+			case 3:
+			//YoutubeWidget(number);
 			break;
 		}
-	
+
 	}
 
 	var listDateWidget = [];
-	function addDateWidget() {
+	function addDateWidget(id) {
 
-		var div = document.createElement('div');
 		var span = document.createElement('span');
 		var date = new DateWidget;
 		span.innerHTML = date.date;
 		span.setAttribute('id', "widget-" + listDateWidget.length);
 		listDateWidget.push(date);
-
-		var buttonDelete = document.createElement('input');
-		buttonDelete.setAttribute("class", "btn-danger");
-		buttonDelete.setAttribute("type", "button");
-		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
-		buttonDelete.setAttribute("value", "Supprimer le widget");
-
-		div.appendChild(span);
-		div.appendChild(buttonDelete);
-
-		var divContainer = document.getElementById("widgetsContainer");
-		divContainer.appendChild(div);
+		var divPanelBody = document.getElementById("panelBody"+id);
+		divPanelBody.appendChild(span);
 		refresh();
 	}
+	/****  Twitter ****/
 	function TwitterWidget(id)
 	{
-		if(!twitterAdded)
-		{
-			var a = document.createElement('a');
-			a.setAttribute('class', "twitter-timeline");
-			a.setAttribute('href', "https://twitter.com/MichelBillaud/");
-			a.setAttribute('data-widget-id', "579937972377796608");
-			a.innerHTML = "Tweets favoris de @MichelBillaud";
+		var a = document.createElement('a');
+		a.setAttribute('class', "twitter-timeline");
+		a.setAttribute('href', "https://twitter.com/MichelBillaud/");
+		a.setAttribute('data-widget-id', "579937972377796608");
+		a.innerHTML = "Tweets favoris de @MichelBillaud";
 
 
-			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
-
-			//div.appendChild(a);
 			divContainer = document.getElementById('panelBody'+id);
 			divContainer.appendChild(a);
 		}
-	}
-		/****  Twitter ****/
 
-		function addTwitterWidget() {
-			if(!twitterAdded)
-			{
-				var div = document.createElement('div');
-				var a = document.createElement('a');
-				div.setAttribute('class','panel-body text-center');
-				a.setAttribute('class', "twitter-timeline");
-				a.setAttribute('width', "400");
-				a.setAttribute('height', "400");
-				a.setAttribute('href', "https://twitter.com/MichelBillaud/");
-				a.setAttribute('data-widget-id', "579937972377796608");
-				a.innerHTML = "Tweets favoris de @MichelBillaud";
+		function refresh() {
+			for(var i=0; i < listDateWidget.length; i++)  {
+				var dateWidget = document.getElementById("widget-" + i);
+				if(dateWidget != null)
+				{
+					document.getElementById("widget-" + i).innerHTML = date_heure();	
+				}
+				
+			}
+			setTimeout(refresh, 1000);
+		}
 
+		function addGoogleMaps()
+		{
+			generateMap();
 
-				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-
-
-				var buttonDelete = document.createElement('input');
-				buttonDelete.setAttribute("class", "btn-danger");
-				buttonDelete.setAttribute("type", "button");
-		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
-		buttonDelete.setAttribute("value", "Supprimer le widget");
-
-		div.appendChild(a);
-		div.appendChild(buttonDelete);
-
-		var divContainer = document.getElementById("widgetsContainer");
-		divContainer.appendChild(div);
-	}
-}
-function refresh() {
-	for(var i=0; i < listDateWidget.length; i++)  {
-		document.getElementById("widget-" + i).innerHTML = date_heure();
-	}
-	setTimeout(refresh, 1000);
-}
-
-function addGoogleMaps()
-{
-	generateMap();
-	
-}
+		}
 	// GOOGLE MAPS //
 	var map;
 	var directionsService = new google.maps.DirectionsService();
@@ -329,8 +280,8 @@ function addGoogleMaps()
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="#" onclick="addDateWidget()">DateWidget</a></li>
-						<li><a href="#" onclick="addWidgets(1)">TwitterWidget</a></li>
+						<li><a href="#" onclick="addWidgets(1)">DateWidget</a></li>
+						<li><a href="#" onclick="addWidgets(2)">TwitterWidget</a></li>
 						<li><a href="#" onclick="addYoutubeWidget()">YoutubeWidget</a></li>
 						<li><a href="#" onclick="addGoogleMaps()">GoogleMaps</a></li>
 						<li><a href="#" onclick="addWidgets()">Widget</a></li>
@@ -345,7 +296,15 @@ function addGoogleMaps()
 
 		</div>
 	</div> <!-- END CONTAINER -->
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="bootstrap/js/dropdown.js"></script>
+	<script src="date_heure.js"></script>
+	
 
+
+	<!-- Bootstrap core CSS -->
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </body>
 </html>
 
