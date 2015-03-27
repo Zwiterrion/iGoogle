@@ -55,7 +55,6 @@
 		divPanelBody.setAttribute('class','panel-body text-center');
 		divPanelBody.setAttribute('id','panelBody'+number);
 
-
 		divPanelHeading.appendChild(divPanelBody);
 		divPanel.appendChild(divPanelHeading);
 
@@ -80,58 +79,100 @@
 			TwitterWidget(number);
 			break;
 			case 3:
-			//YoutubeWidget(number);
+			YoutubeWidget(number);
 			break;
 		}
 
 	}
-
 	var listDateWidget = [];
-	function addDateWidget(id) {
 
+	/*****  Date  *****/ 
+	function addDateWidget(id) {
+		var div = document.createElement('div');
+		div.setAttribute('class','input-group');
 		var span = document.createElement('span');
 		var date = new DateWidget;
 		span.innerHTML = date.date;
 		span.setAttribute('id', "widget-" + listDateWidget.length);
 		listDateWidget.push(date);
 		var divPanelBody = document.getElementById("panelBody"+id);
-		divPanelBody.appendChild(span);
+		div.appendChild(span);
+		divPanelBody.appendChild(div);
 		refresh();
 	}
+
+	function refresh() {
+		for(var i=0; i < listDateWidget.length; i++)  {
+			var dateWidget = document.getElementById("widget-" + i);
+			if(dateWidget != null)
+			{
+				document.getElementById("widget-" + i).innerHTML = date_heure();	
+			}
+
+		}
+		setTimeout(refresh, 1000);
+	}
+	//// *** END DATE *** //// 
+
 	/****  Twitter ****/
 	function TwitterWidget(id)
 	{
+		var div = document.createElement('div');
+		div.setAttribute('class','input-group');
 		var a = document.createElement('a');
 		a.setAttribute('class', "twitter-timeline");
 		a.setAttribute('href', "https://twitter.com/MichelBillaud/");
 		a.setAttribute('data-widget-id', "579937972377796608");
 		a.innerHTML = "Tweets favoris de @MichelBillaud";
-
-
 		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
-			divContainer = document.getElementById('panelBody'+id);
-			divContainer.appendChild(a);
-		}
+		var divPanelBody = document.getElementById('panelBody'+id);
+		div.appendChild(a);
+		divPanelBody.appendChild(div);
+	}
+	//// *** END TWITTER *** ////
+	/*** Youtube ***/ 
+	function searchYoutube(id)
+	{
+		var iframe = document.getElementById('iframe'+id);
+		var inputSearch = document.getElementById('youtubeInput'+id);
+		iframe.setAttribute('src','http://www.youtube.com/embed?listType=search&list='+inputSearch.value);
+	}
+	function YoutubeWidget(id)
+    {
+    	var div = document.createElement('div');
+    	div.setAttribute('class','input-group');
 
-		function refresh() {
-			for(var i=0; i < listDateWidget.length; i++)  {
-				var dateWidget = document.getElementById("widget-" + i);
-				if(dateWidget != null)
-				{
-					document.getElementById("widget-" + i).innerHTML = date_heure();	
-				}
-				
-			}
-			setTimeout(refresh, 1000);
-		}
+    	var iframe = document.createElement('iframe');
+    	iframe.setAttribute('id', "iframe"+id);
+    	iframe.setAttribute('type', "text/html");
+    	iframe.setAttribute('width', "100%");
+    	iframe.setAttribute('height', "100%");
+    	iframe.setAttribute('src', "http://www.youtube.com/embed?listType=search&list=lol");
+    	iframe.setAttribute('frameborder', "O");
 
-		function addGoogleMaps()
-		{
-			generateMap();
+    	var input = document.createElement('input');
+    	var span = document.createElement('span');
+    	var button = document.createElement('button');
+    	button.setAttribute('onclick','searchYoutube('+id+')');
+    	button.setAttribute('class','btn-default primary');
+    	button.setAttribute('type','button');
+    	span.setAttribute('class','input-group-btn');
+    	span.appendChild(button);
+    	input.appendChild(span);
 
-		}
+    	var divPanelBody = document.getElementById("panelBody"+id);
+
+    	div.appendChild(iframe);
+    	divPanelBody.appendChild(input);
+    	divPanelBody.appendChild(div);
+    }
+    //// ***  END YOUTUBE ***////
 	// GOOGLE MAPS //
+	function addGoogleMaps()
+	{
+		generateMap();
+	}
 	var map;
 	var directionsService = new google.maps.DirectionsService();
 	var directionsDisplay = new google.maps.DirectionsRenderer({ 'map': map }); 
@@ -161,32 +202,7 @@
 	}
     // END GOOGLE MAPS
 
-
-   /* <iframe id="ytplayer" type="text/html" width="600" height="400" src="http://www.youtube.com/embed?listType=search&list=lol"frameborder="0" />
-   */
-   function addYoutubeWidget() {
-
-   	var div = document.createElement('div');
-   	var iframe = document.createElement('iframe');
-   	iframe.setAttribute('id', "ytplayer");
-   	iframe.setAttribute('type', "text/html");
-   	iframe.setAttribute('width', "600");
-   	iframe.setAttribute('height', "400");
-   	iframe.setAttribute('src', "http://www.youtube.com/embed?listType=search&list=lol");
-   	iframe.setAttribute('frameborder', "O");
-
-   	var buttonDelete = document.createElement('input');
-   	buttonDelete.setAttribute("class", "btn-danger");
-   	buttonDelete.setAttribute("type", "button");
-		//buttonDelete.setAttribute("onclick", "deleteDateWidget(this)");
-		buttonDelete.setAttribute("value", "Supprimer le widget");
-
-		div.appendChild(iframe);
-		div.appendChild(buttonDelete);
-
-		var divContainer = document.getElementById("divContainer");
-		divContainer.appendChild(div);
-	}
+    /**** WEATHER ****/
 	function ParseJson(JSONtext)
 	{
 		try{
@@ -208,7 +224,6 @@
 
 		return JSONobject;
 	}
-	// 
 	function load_json(api_url)
 	{ 
 		var xhr;
@@ -259,6 +274,8 @@
 			var cloud=JSONobject.list[i].clouds.all ; 
 		}
 		console.log(name);
+		console.log(temp);
+		console.log(tmin);
 	}
 	</script>
 </head>
@@ -282,7 +299,7 @@
 					<ul class="nav navbar-nav">
 						<li><a href="#" onclick="addWidgets(1)">DateWidget</a></li>
 						<li><a href="#" onclick="addWidgets(2)">TwitterWidget</a></li>
-						<li><a href="#" onclick="addYoutubeWidget()">YoutubeWidget</a></li>
+						<li><a href="#" onclick="addWidgets(3)">YoutubeWidget</a></li>
 						<li><a href="#" onclick="addGoogleMaps()">GoogleMaps</a></li>
 						<li><a href="#" onclick="addWidgets()">Widget</a></li>
 					</ul>
