@@ -151,20 +151,27 @@
     	iframe.setAttribute('src', "http://www.youtube.com/embed?listType=search&list=lol");
     	iframe.setAttribute('frameborder', "O");
 
+    	var divInput = document.createElement('div');
     	var input = document.createElement('input');
     	var span = document.createElement('span');
     	var button = document.createElement('button');
     	button.setAttribute('onclick','searchYoutube('+id+')');
-    	button.setAttribute('class','btn-default primary');
+    	button.setAttribute('class','btn btn-primary');
     	button.setAttribute('type','button');
+    	button.innerHTML = 'Search';
     	span.setAttribute('class','input-group-btn');
+    	divInput.setAttribute('class','input-group');
+    	input.setAttribute('id','youtubeInput'+id);
+    	input.setAttribute('placeholder','type something...');
+    	input.setAttribute('type','text');
+    	input.setAttribute('class','form-control');
     	span.appendChild(button);
-    	input.appendChild(span);
-
+    	divInput.appendChild(input);
+    	divInput.appendChild(span);
     	var divPanelBody = document.getElementById("panelBody"+id);
 
     	div.appendChild(iframe);
-    	divPanelBody.appendChild(input);
+    	divPanelBody.appendChild(divInput);
     	divPanelBody.appendChild(div);
     }
     //// ***  END YOUTUBE ***////
