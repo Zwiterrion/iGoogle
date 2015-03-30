@@ -46,20 +46,22 @@
 		switch(widgetNumber)
 		{
 			case 1:
-			h2.innerHTML = 'Date Widget';
+			h2.innerHTML = 'Date';
 			break;
 			case 2:
-			h2.innerHTML = 'Twitter Widget';
+			h2.innerHTML = 'Twitter';
 			break;
 			case 3:
-			h2.innerHTML = 'Youtube Widget';
+			h2.innerHTML = 'Youtube';
 			break;
 			case 4: 
 			h2.innerHTML = 'Google Maps';
 			break;
 			case 5:
-			h2.innerHTML = 'Actualités';
+			h2.innerHTML = 'News';
 			break;
+			case 6:
+			h2.innerHTML = 'Weather';
 		}
 		
 		divPanelHeading.appendChild(h2);
@@ -100,6 +102,9 @@
 			break;
 			case 5:
 			actualitesWidget(number);
+			break;
+			case 6:
+			WeatherWidget(number);
 			break;
 		}
 
@@ -258,44 +263,11 @@
 	
 	function GoogleMaps(id)
 	{
-		var divPanelBody = document.getElementById(  'panelBody'+id);
-		divPanelBody.innerHTML = '<div class="input-group"><input id="maps-input' + id + '" type="text" class="form-control" placeholder="Entrez une ville..."><span class="input-group-btn"><button onClick="generateMap(' + id + ')" class="btn btn-default" type="button">Go!</button></span></div><div style="margin-top:30px;width:300px;height:300px;" class="center-block" id="maps-canvas' + id + '"></div>';
-		initialize(id);
-
-	}
-	/*
-	function GoogleMaps(id)
-	{
-		var divCanvas =  document.createElement('div');
-		divCanvas.setAttribute('id','map-canvas'+id);
-		divCanvas.setAttribute('height','300px');
-		divCanvas.setAttribute('margin-top','30px');
-		divCanvas.setAttribute('width','300px');
-		var divInput = document.createElement('div');
-		var input = document.createElement('input');
-		var span = document.createElement('span');
-		var button = document.createElement('button');
-		button.setAttribute('onclick','generateMap('+id+')');
-		button.setAttribute('class','btn btn-primary');
-		button.setAttribute('type','button');
-		button.innerHTML = 'Search';
-		span.setAttribute('class','input-group-btn');
-		divInput.setAttribute('class','input-group');
-		input.setAttribute('id','maps-input'+id);
-		input.setAttribute('placeholder','type something...');
-		input.setAttribute('type','text');
-		input.setAttribute('class','form-control');
-		span.appendChild(button);
-		divInput.appendChild(input);
-		divInput.appendChild(span);
-
 		var divPanelBody = document.getElementById('panelBody'+id);
-		divPanelBody.setAttribute('width','300px');
-		divPanelBody.setAttribute('height','300px');
-		divPanelBody.appendChild(divCanvas);
-		divPanelBody.appendChild(divInput);
+		divPanelBody.innerHTML = '<div class="input-group"><input id="maps-input' + id + '" type="text" class="form-control" placeholder="type a city..."><span class="input-group-btn"><button onClick="generateMap(' + id + ')" class="btn btn-default" type="button">Search</button></span></div><div style="margin-top:30px;width:300px;height:300px;" class="center-block" id="maps-canvas' + id + '"></div>'; 
+		
 		initialize(id);
-	}*/
+	}
 
 	var map;
 	var directionsService = new google.maps.DirectionsService();
@@ -328,6 +300,32 @@
     // END GOOGLE MAPS
 
     /**** WEATHER ****/
+    function WeatherWidget(id)
+    {
+    	var divPanelBody = document.getElementById('panelBody'+id);
+		var div = document.createElement('div');
+		div.setAttribute('class','input-group');
+    	var divInput = document.createElement('div');
+		var input = document.createElement('input');
+		var span = document.createElement('span');
+		var button = document.createElement('button');
+		button.setAttribute('onclick','loadWeather('+id+')');
+		button.setAttribute('class','btn btn-primary');
+		button.setAttribute('type','button');
+		button.innerHTML = 'Search';
+		span.setAttribute('class','input-group-btn');
+		divInput.setAttribute('class','input-group');
+		input.setAttribute('id','weather-input'+id);
+		input.setAttribute('placeholder','type a city...');
+		input.setAttribute('type','text');
+		input.setAttribute('class','form-control');
+		span.appendChild(button);
+		divInput.appendChild(input);
+		divInput.appendChild(span);
+		divPanelBody.appendChild(divInput);
+		divPanelBody.appendChild(div);
+
+    }
     function ParseJson(JSONtext)
     {
     	try{
@@ -365,14 +363,14 @@
     	return xhr.responseText;
     }
 
-    function loadWeather() {
+    function loadWeather(id) {
 
     	var city ='';
     	var temperature ='';
     	var weatherFeel = '';
 
 
-    	var param = document.getElementById('weather-input').value;
+    	var param = document.getElementById('weather-input'+id).value;
 
 		//var url = 'http://api.openweathermap.org/data/2.5/weather?q='+param+',fr';
 		var url = 'http://api.openweathermap.org/data/2.5/find?callback=?&q='+param+'&type=like&sort=population&cnt=30';
@@ -395,11 +393,15 @@
 			var flag = "http://openweathermap.org/images/flags/" +JSONobject.list[i].sys.country.toLowerCase()  + ".png";
 			var gust = JSONobject.list[i].wind.speed;
 			var pressure = JSONobject.list[i].main.pressure ;
-			var cloud=JSONobject.list[i].clouds.all ; 
+			var cloud=JSONobject.list[i].clouds.all; 
 		}
-		console.log(name);
-		console.log(temp);
-		console.log(tmin);
+		var div  =document.createElement('div');
+	
+		div.innerHTML = '<img src="' + img + '">' + '<br>' + '<p> '+ name +' <img src="'+ flag +'""> '+ text + '<br>'
+			+ temp + '°C temperature from ' + tmin + ' to ' + tmax +'°C wind' + gust +'m/s. clouds ' + cloud +'%,'
+			
+		var divPanelBody = document.getElementById('panelBody'+id);
+		divPanelBody.appendChild(div);
 	}
 
 	</script>
@@ -423,10 +425,11 @@
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="#" onclick="addWidgets(1)">DateWidget</a></li>
-						<li><a href="#" onclick="addWidgets(2)">TwitterWidget</a></li>
-						<li><a href="#" onclick="addWidgets(3)">YoutubeWidget</a></li>
+						<li><a href="#" onclick="addWidgets(2)">Twitter</a></li>
+						<li><a href="#" onclick="addWidgets(3)">Youtube</a></li>
 						<li><a href="#" onclick="addWidgets(4)">GoogleMaps</a></li>
-						<li><a href="#" onclick="addWidgets(5)">Actualités</a></li>
+						<li><a href="#" onclick="addWidgets(5)">News</a></li>
+						<li><a href="#" onclick="addWidgets(6)">Weather</a></li>
 						<li><a href="#" onclick="addWidgets()">Widget</a></li>
 					</ul>
 				</div>
