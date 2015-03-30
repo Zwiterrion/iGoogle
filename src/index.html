@@ -14,11 +14,6 @@
 	<script src="flickr.js"></script>
 
 	<title>iGoogle</title>
-	<style>#map_canvas {
-		height: 300px;
-		width: 300px;
-	}
-	</style>
 
 	<script type="text/javascript">
 
@@ -81,8 +76,9 @@
 		divPanelBody.setAttribute('class','panel-body text-center');
 		divPanelBody.setAttribute('id','panelBody'+number);
 
-		divPanelHeading.appendChild(divPanelBody);
 		divPanel.appendChild(divPanelHeading);
+		divPanel.appendChild(divPanelBody);
+		
 
 		divContainer.appendChild(deleteButton);
 		divContainer.appendChild(divPanel);
@@ -294,22 +290,22 @@
 
     //// ***  END YOUTUBE ***////
 	// GOOGLE MAPS //
+	
 	function GoogleMaps(id)
 	{
 		var divPanelBody = document.getElementById(  'panelBody'+id);
-		divPanelBody.innerHTML ='<div id="cadre2">'+
-		'<div id="requete">'+
-		'<form method="post">'+
-		'<input id="maps-input"'+ id +' type="text"><input name="Aller" type="button" value="Rechercher" onclick="GoogleMaps('+id+')">'
-		+'</form>'+
-		+'</div></div><div id="map_canvas'+ id +'""> </div>';
-	}/*
+		divPanelBody.innerHTML = '<div class="input-group"><input id="maps-input' + id + '" type="text" class="form-control" placeholder="Entrez une ville..."><span class="input-group-btn"><button onClick="generateMap(' + id + ')" class="btn btn-default" type="button">Go!</button></span></div><div style="margin-top:30px;width:300px;height:300px;" class="center-block" id="maps-canvas' + id + '"></div>';
+		initialize(id);
+
+	}
+	/*
 	function GoogleMaps(id)
 	{
 		var divCanvas =  document.createElement('div');
 		divCanvas.setAttribute('id','map-canvas'+id);
-		divCanvas.setAttribute('height','100%');
-		divCanvas.setAttribute('width','100%');
+		divCanvas.setAttribute('height','300px');
+		divCanvas.setAttribute('margin-top','30px');
+		divCanvas.setAttribute('width','300px');
 		var divInput = document.createElement('div');
 		var input = document.createElement('input');
 		var span = document.createElement('span');
@@ -329,10 +325,13 @@
 		divInput.appendChild(span);
 
 		var divPanelBody = document.getElementById('panelBody'+id);
-		divPanelBody.appendChild(divInput);
+		divPanelBody.setAttribute('width','300px');
+		divPanelBody.setAttribute('height','300px');
 		divPanelBody.appendChild(divCanvas);
-	}
-	*/
+		divPanelBody.appendChild(divInput);
+		initialize(id);
+	}*/
+
 	var map;
 	var directionsService = new google.maps.DirectionsService();
 	var directionsDisplay = new google.maps.DirectionsRenderer({ 'map': map }); 
@@ -342,14 +341,14 @@
 			center: new google.maps.LatLng(44.791072,-0.608658),
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
-		map = new google.maps.Map(document.getElementById('map-canvas'+id), myOptions);
+		map = new google.maps.Map(document.getElementById('maps-canvas'+id), myOptions);
 		directionsDisplay.setMap(map);
 	}
 	function generateMap(id) {
 		initialize(id);
 		var start = document.getElementById('maps-input'+id).value;
 		console.log(start);
-		var end = '15, rue de Naudet, Gradignan'
+		var end = '15, rue de Naudet, Gradignan';
 		var request = {
 			origin:start,
 			destination:end,
