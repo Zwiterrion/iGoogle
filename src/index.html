@@ -166,12 +166,16 @@
 
 		var div3 = document.createElement('div');
 		div3.setAttribute('id', 'divFoot');
+		div3.setAttribute('class', 'panel-heading');
 
 		var div4 = document.createElement('div');
 		div4.setAttribute('class', 'panel-body');
 		div4.setAttribute('id', 'divCFC');
 
 		var table = document.createElement('table');
+		//height:300px; width:400px; overflow-y:scroll; display:block;
+		table.setAttribute('overflow-y','scroll');
+		table.setAttribute('display', 'block');
 		table.setAttribute('class', 'table');
 		var thead = document.createElement('thead');
 		var tr = document.createElement('tr');
