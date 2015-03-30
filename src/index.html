@@ -11,6 +11,7 @@
 	<script src="bootstrap/js/dropdown.js"></script>
 	<script src="date_heure.js"></script>
 	<script src="football.js"></script>
+	<script src="flickr.js"></script>
 
 	<title>iGoogle</title>
 
@@ -62,6 +63,10 @@
 			break;
 			case 6:
 			h2.innerHTML = 'Weather';
+			break;
+			case 7:
+			h2.innerHTML = 'Flickr Widget';
+			break;
 		}
 		
 		divPanelHeading.appendChild(h2);
@@ -105,6 +110,9 @@
 			break;
 			case 6:
 			WeatherWidget(number);
+			break;
+			case 7:
+			flickr(number);
 			break;
 		}
 
@@ -156,6 +164,34 @@
 		divPanelBody.appendChild(div);
 	}
 	//// *** END TWITTER *** ////
+
+	function flickr(id) {
+
+		var div = document.createElement('div');
+		div.setAttribute('class', 'col-lg-4');
+		div.setAttribute('id', 'photo');
+
+		var divPhoto = document.createElement('div');
+		divPhoto.setAttribute('id', 'images');
+	
+		var input = document.createElement('input');
+		input.setAttribute('id', 'box');
+		input.setAttribute('type', 'text');
+		input.setAttribute('placeholder', 'Entrer votre mot clé');
+
+		var input2 = document.createElement('input');
+		input2.setAttribute('id', 'Button');
+		input2.setAttribute('value', 'Rechercher');
+		input2.setAttribute('type', 'button');
+		input2.setAttribute('onclick', 'showpics()');
+
+		divPhoto.appendChild(input);
+		divPhoto.appendChild(input2);
+		div.appendChild(divPhoto);
+
+		var divPanelBody = document.getElementById("panelBody"+id);
+		divPanelBody.appendChild(div);
+	}
 
 	function actualitesWidget(id) {
 
@@ -424,13 +460,13 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="#" onclick="addWidgets(1)">DateWidget</a></li>
+						<li><a href="#" onclick="addWidgets(1)">Date</a></li>
 						<li><a href="#" onclick="addWidgets(2)">Twitter</a></li>
 						<li><a href="#" onclick="addWidgets(3)">Youtube</a></li>
 						<li><a href="#" onclick="addWidgets(4)">GoogleMaps</a></li>
 						<li><a href="#" onclick="addWidgets(5)">News</a></li>
 						<li><a href="#" onclick="addWidgets(6)">Weather</a></li>
-						<li><a href="#" onclick="addWidgets()">Widget</a></li>
+						<li><a href="#" onclick="addWidgets(7)">Flickr</a></li>
 					</ul>
 				</div>
 			</div>
@@ -442,6 +478,7 @@
 
 		</div>
 	</div> <!-- END CONTAINER -->
+
 
 	<!-- Bootstrap core CSS -->
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
